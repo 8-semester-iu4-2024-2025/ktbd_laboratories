@@ -45,4 +45,4 @@ RUN apt-get update && apt-get install -y \
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
 COPY php/php.ini /usr/local/etc/php/
-EXPOSE 80
+EXPOSE 9000
