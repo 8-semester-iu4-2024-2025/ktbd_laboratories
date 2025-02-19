@@ -31,7 +31,7 @@ services:
       XDEBUG_CONFIG: client_host=host.docker.internal client_port=9003
     volumes:
       - ./labs:/var/www/html
-      - ./php.log:/var/log/fpm-php.www.log
+      - ./php/logs:/var/log/fpm-php.www.log
 
 networks:
   internal:
