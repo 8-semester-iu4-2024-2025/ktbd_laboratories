@@ -1,0 +1,38 @@
+version: "3"
+services:
+  oracledb:
+    build:
+      context: .
+      dockerfile: oracle/Dockerfile
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_RANDOM_PASSWORD: true
+      APP_USER: admin
+      APP_USER_PASSWORD: admin
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - internal
+    volumes:
+      - ./labs/:/var/www/html
+  php:
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    networks:
+      - internal
+    environment:
+      XDEBUG_MODE: debug
+      XDEBUG_CONFIG: client_host=host.docker.internal client_port=9003
+    volumes:
+      - ./labs:/var/www/html
+      - ./php.log:/var/log/fpm-php.www.log
+
+networks:
+  internal:
+    driver: bridge
