@@ -42,7 +42,12 @@ RUN apt-get update && apt-get install -y \
     && echo 'instantclient,/opt/oracle/instantclient' | pecl install oci8 \
     && docker-php-ext-enable oci8
 
-RUN pecl install xdebug
-RUN docker-php-ext-enable xdebug
-COPY php/php.ini /usr/local/etc/php/
-EXPOSE 9000
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
+COPY php/php.ini /usr/local/etc/php/conf.d
+
+# An IDE key has to be set, but anything works, at least for PhpStorm and VS Code...
+ENV XDEBUG_CONFIG="xdebug.idekey=''"
+
+EXPOSE 80
