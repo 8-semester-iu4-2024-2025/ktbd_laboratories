@@ -1,4 +1,3 @@
-version: "3"
 services:
   oracledb:
     build:
@@ -6,10 +5,6 @@ services:
       dockerfile: oracle/Dockerfile
     ports:
       - "1521:1521"
-    environment:
-      ORACLE_RANDOM_PASSWORD: true
-      APP_USER: admin
-      APP_USER_PASSWORD: admin
   php:
     build:
       context: .
