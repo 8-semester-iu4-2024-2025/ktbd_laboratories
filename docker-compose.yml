@@ -15,9 +15,3 @@ services:
       - "80:80"
     volumes:
       - ./labs:/var/www/html
-  # dbeaver:
-  #   image: dbeaver/cloudbeaver:latest
-  #   ports:
-  #     - 8978:8978
-  #   depends_on:
-  #     - oracledb
