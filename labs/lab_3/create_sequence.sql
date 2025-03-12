@@ -1,0 +1,2 @@
+CREATE SEQUENCE s_doc_id START WITH 1;
+SELECT s_doc_id.NEXTVAL from dual;
