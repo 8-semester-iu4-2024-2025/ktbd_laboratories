@@ -1,172 +1,90 @@
-DROP TABLE departments;
-DROP TABLE jobs;
-DROP TABLE employees;
-
--- create DEPARTMENTS
-CREATE TABLE departments (
-    department_id   NUMBER PRIMARY KEY,
-    department_name VARCHAR2(15) NOT NULL,
-    manager_id      NUMBER NOT NULL,
-    location_id     NUMBER NOT NULL
-);
-
--- create JOBS
-CREATE TABLE jobs (
-    job_id     NUMBER PRIMARY KEY,
-    job_title  VARCHAR2(15) NOT NULL,
-    min_salary NUMBER NOT NULL,
-    max_salary NUMBER NOT NULL
-);
-
--- create EMPLOYEES
-CREATE TABLE employees (
-    employee_id   NUMBER PRIMARY KEY,
-    first_name    VARCHAR2(15) NOT NULL,
-    last_name     VARCHAR2(15) NOT NULL,
-    email         VARCHAR2(15) NOT NULL,
-    phone_number  VARCHAR2(15) NOT NULL,
-    hire_date     DATE NOT NULL,
-    job_id        NUMBER, --FOREIGN KEY REFERENCES JOBS(job_id),
-    salary        NUMBER NOT NULL,
-    comission_pct NUMBER NOT NULL,
-    manager_id    NUMBER,
-    department_id NUMBER
-);
-
--- insert DEPARTMENTS
-INSERT INTO departments VALUES ( 1,
-                                 'IT',
-                                 1,
-                                 1 );
-
--- insert JOBS
-INSERT INTO jobs VALUES ( 1,
-                          'IT_shnik',
-                          1000,
-                          1000000 );
-
--- insert EMPLOYEES
-INSERT INTO employees VALUES ( 1,
-                               'Clark',
-                               'Clark',
-                               'Clark@keker',
-                               '88005553535',
-                               TO_DATE('12-AUG-2020'),
-                               0,
-                               2000,
-                               1,
-                               205,
-                               3 );
-INSERT INTO employees VALUES ( 2,
-                               'Ava',
-                               'Ava',
-                               'Ava@keker',
-                               '88005553536',
-                               TO_DATE('12-AUG-2020'),
-                               1,
-                               3000,
-                               0,
-                               1,
-                               3 );
-INSERT INTO employees VALUES ( 3,
-                               'Dave',
-                               'Dave',
-                               'Dave@keker',
-                               '88005553537',
-                               TO_DATE('13-AUG-2020'),
-                               0,
-                               4000,
-                               0,
-                               1,
-                               60 );
-INSERT INTO employees VALUES ( 4,
-                               'Valenok',
-                               'Valenok',
-                               'Valenok@keker',
-                               '88005553538',
-                               TO_DATE('12-AUG-2021'),
-                               1,
-                               4000,
-                               1,
-                               149,
-                               60 );
-
--- select 
-SELECT first_name,
-       last_name,
-       salary
+SELECT first_name
+      ,last_name
+      ,salary
   FROM employees
  WHERE salary >= 3000
    AND salary <= 4000
  ORDER BY salary DESC;
-SELECT first_name,
-       last_name,
-       manager_id
+SELECT first_name
+      ,last_name
+      ,manager_id
   FROM employees
  WHERE manager_id = 105
     OR manager_id = 149
     OR manager_id = 205;
-SELECT last_name,
-       email,
-       phone_number
+SELECT last_name
+      ,email
+      ,phone_number
   FROM employees
  WHERE instr(
-    email,
-    'H',
-    2
+    email
+   ,'H'
+   ,2
 ) = 2;
-SELECT last_name,
-       salary,
-       comission_pct
+SELECT last_name
+      ,salary
+      ,comission_pct
   FROM employees
  WHERE comission_pct = 0
  ORDER BY salary DESC;
-SELECT first_name,
-       last_name,
-       salary,
-       phone_number
+SELECT first_name
+      ,last_name
+      ,salary
+      ,phone_number
   FROM employees
  WHERE department_id = 60
    AND salary >= 3000
  ORDER BY salary DESC;
-SELECT employees.first_name,
-       employees.last_name,
-       employees.salary,
-       employees.job_id,
-       employees.comission_pct
+SELECT employees.first_name
+      ,employees.last_name
+      ,employees.salary
+      ,employees.job_id
+      ,employees.comission_pct
   FROM employees
   LEFT JOIN jobs
 ON employees.job_id = jobs.job_id
  WHERE employees.comission_pct > 0
     OR instr(
-    jobs.job_title,
-    'IT',
-    1
+    jobs.job_title
+   ,'IT'
+   ,1
 ) = 1;
-SELECT first_name,
-       last_name,
-       manager_id
+SELECT first_name
+      ,last_name
+      ,manager_id
   FROM employees
  WHERE manager_id <> 105
    AND manager_id <> 149
    AND manager_id <> 205
  ORDER BY last_name;
-SELECT first_name,
-       last_name,
-       hire_date
+SELECT first_name
+      ,last_name
+      ,hire_date
   FROM employees
  ORDER BY hire_date ASC;
-SELECT department_id,
-       last_name,
-       phone_number
+SELECT department_id
+      ,last_name
+      ,phone_number
   FROM employees
- ORDER BY department_id,
-          last_name;
-SELECT departments.department_id,
-       departments.department_name,
-       employees.employee_id,
-       employees.first_name,
-       employees.last_name
+ ORDER BY department_id
+         ,last_name;
+COLUMN "Подразделение" FORMAT A25
+COLUMN "Подчинение" FORMAT A25
+SELECT lpad(
+    departments.department_name
+   ,length(departments.department_name) + 2 *(level - 1)
+   ,'.'
+) "Подразделение"
+      ,sys_connect_by_path(
+    departments.department_name
+   ,'/'
+) "Подчинение"
   FROM departments
- INNER JOIN employees
-ON employees.employee_id = departments.manager_id;
+ INNER JOIN employees e1
+ON departments.manager_id = e1.employee_id
+ INNER JOIN employees e2
+ON e1.manager_id = e2.employee_id
+CONNECT BY NOCYCLE
+    PRIOR departments.department_id = e2.department_id
+START WITH upper(departments.department_name) = 'IT'
+ ORDER SIBLINGS BY departments.department_name;
