@@ -4,7 +4,7 @@
         echo("Вы уже вошли как {$_SESSION['user_id']}");
     } else {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $conn = oci_connect("system", "admin", "host.docker.internal:1521/xe");
+            $conn = oci_connect("system", "oracle_password", "host.docker.internal:1521/FREEPDB1");
             if (! $conn) {
                 die();
             }

@@ -1,5 +1,5 @@
 <?php
-$conn = oci_connect("system", "admin", "host.docker.internal:1521/xe");
+$conn = oci_connect("system", "oracle_password", "host.docker.internal:1521/FREEPDB1");
 if (! $conn) {
     echo("Невозможно подключиться к базе: " . var_dump(oci_error()));
     die();
