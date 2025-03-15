@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 # Oracle Instant Client Download links
 # https://www.oracle.com/database/technologies/instant-client/downloads.html
