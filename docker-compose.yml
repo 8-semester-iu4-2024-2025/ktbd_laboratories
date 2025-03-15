@@ -1,7 +1,6 @@
 services:
   oracledb:
     build:
-      context: .
       dockerfile: oracle/Dockerfile
     ports:
       - "1521:1521"
@@ -9,7 +8,6 @@ services:
       - ./data:/opt/oracle/oradata
   php:
     build:
-      context: .
       dockerfile: php/Dockerfile
     ports:
       - "80:80"
