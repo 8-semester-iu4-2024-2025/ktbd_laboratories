@@ -47,7 +47,4 @@ RUN pecl install xdebug \
 
 COPY php/php.ini /usr/local/etc/php/conf.d
 
-# An IDE key has to be set, but anything works, at least for PhpStorm and VS Code...
-ENV XDEBUG_CONFIG="xdebug.idekey=''"
-
 EXPOSE 80
