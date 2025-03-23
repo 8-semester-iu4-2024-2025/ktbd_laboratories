@@ -5,7 +5,7 @@ services:
     ports:
       - "1521:1521"
     volumes:
-      - ./data:/opt/oracle/oradata
+      - ./.data:/opt/oracle/oradata
   php:
     build:
       dockerfile: php/Dockerfile
