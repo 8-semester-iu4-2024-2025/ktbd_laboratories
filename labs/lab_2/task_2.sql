@@ -1,0 +1,1 @@
+GRANT SELECT ON hr_jobs TO user;
