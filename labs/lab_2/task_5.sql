@@ -1,5 +1,5 @@
-CREATE ROLE "manager" NOT IDENTIFIED;
+CREATE ROLE "table_creater" NOT IDENTIFIED;
 GRANT
-    CREATE TABLE
-TO "manager";
-GRANT "manager" TO "user";
+    CREATE ANY TABLE
+TO "table_creater";
+GRANT "table_creater" TO "kruglovvs";

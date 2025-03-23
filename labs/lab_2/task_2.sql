@@ -1,1 +1,1 @@
-GRANT SELECT ON hr_jobs TO user;
+GRANT SELECT ON hr_jobs TO kruglovvs;
