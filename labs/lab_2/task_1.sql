@@ -1,3 +1,4 @@
-SELECT username
+SELECT grantee
       ,granted_role
-FROM user_role_privs;
+FROM dba_role_privs
+WHERE grantee = 'SCOTT';
