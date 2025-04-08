@@ -66,9 +66,10 @@ ALTER TABLE defect
               FOSREIGN KEY (fail_id)
                              REFERENCES failure ) ;	--Добавление внешнего ключа в таблицу defect соединяющего ее с failure
 ALTER TABLE defect
-       ADD  ( CONSTRAINT c_comp_id
+       ADD  ( CONSTRAINT c_comp_fk
               FOREIGN KEY (comp_id)
-                             REFERENCES components ) ;	-- Добавление внешнего ключа в таблицу defect соединяющего ее с components
+                             REFERENCES components 
+            ) ;	-- Добавление внешнего ключа в таблицу defect соединяющего ее с components
 ALTER TABLE products
        ADD  ( CONSTRAINT c_empl_id
               FOREIGN KEY (prds_empl_id)
@@ -85,11 +86,38 @@ ALTER TABLE products
        ADD  ( CONSTRAINT c_dftc_id
               FOREIGN KEY (prds_dfct_id)
                              REFERENCES defect ) ;	-- Добавление внешнего ключа в таблицу products соединяющего ее с defect
+ALTER TABLE products
+ADD CONSTRAINT с_products_ch 
+CHECK (prds_date >= TO_DATE('01-JAN-2000', 'DD-MON-YYYY'));
+CREATE TABLE standarts
+AS (SELECT * from documentation WHERE docs_type='standart');
+DROP TABLE defect CASCADE CONSTRAINTS;
+COMMENT ON TABLE defect IS "Это таблица дефектов";
+
+RENAME documentation to docs;
+TRUNCATE TABLE docs;
+
+CREATE SEQUENCE s_documentation
+START WITH 100            
+INCREMENT BY 2;
+
+CREATE UNIQUE INDEX i_documentation_id 
+ON documentation (documentation_id);
+DROP INDEX i_documentation_id;
+
+EXPLAIN PLAN FOR  SELECT * FROM documentation;
+SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+-- Создаем точку сохранения
+SAVEPOINT after_insert;
+-- ....
+
+ROLLBACK TO SAVEPOINT after_insert;
 
 -- CREATE UNIQUE INDEX XPKdefect ON defect
 -- (
 --        dfct_id                        
--- );
+-- );S
 -- ALTER TABLE defect
 --        ADD  ( CONSTRAINT XPKdefect PRIMARY KEY (dfct_id) ) ;	-- Создание первичного ключа для таблицы defect
 
