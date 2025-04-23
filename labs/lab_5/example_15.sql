@@ -1,16 +1,9 @@
-CREATE OR REPLACE FUNCTION lokrug (
+CREATE OR REPLACE FUNCTION skrug (
     radius REAL
 ) RETURN REAL IS
-    l REAL;
+    s REAL;
 BEGIN
-    l := 3.14 * radius * 2;
-    RETURN ( l );
+    s := 3.14 * ( radius * * 2 );
+    RETURN ( s );
 END;
 /
-
-CREATE OR REPLACE FUNCTION lokrug1 (
-    radius REAL
-) RETURN REAL IS
-BEGIN
-    RETURN ( 3.14 * radius * 2 );
-END;

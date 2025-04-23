@@ -1,7 +1,7 @@
 DECLARE
-    v_num1   NUMBER NULL := &num1;
-    v_num2   NUMBER NULL := &num2;
-    v_result VARCHAR(7);
+    v_num1   NUMBER;
+    v_num2   NUMBER;
+    v_result VARCHAR(32);
 BEGIN
     IF v_num1 IS NULL
     OR v_num2 IS NULL THEN
@@ -11,5 +11,6 @@ BEGIN
     ELSE
         v_result := 'yes';
     END IF;
+    dbms_output.put_line(to_char(v_result));
 END;
 /

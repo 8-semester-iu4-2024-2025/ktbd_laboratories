@@ -64,16 +64,16 @@ ALTER TABLE products
 ALTER TABLE defect
        ADD  ( CONSTRAINT c_fail_id
               FOSREIGN KEY (fail_id)
-                             REFERENCES failure ) ;	--Добавление внешнего ключа в таблицу defect соединяющего ее с failure
+                             REFERENCES failure ) ;	        --Добавление внешнего ключа в таблицу defect соединяющего ее с failure
 ALTER TABLE defect
        ADD  ( CONSTRAINT c_comp_fk
               FOREIGN KEY (comp_id)
                              REFERENCES components 
-            ) ;	-- Добавление внешнего ключа в таблицу defect соединяющего ее с components
+            ) ;                                         	-- Добавление внешнего ключа в таблицу defect соединяющего ее с components
 ALTER TABLE products
        ADD  ( CONSTRAINT c_empl_id
               FOREIGN KEY (prds_empl_id)
-                             REFERENCES employees ) ;	-- Добавление внешнего ключа в таблицу products соединяющего ее с employees
+                             REFERENCES employees ) ;	    -- Добавление внешнего ключа в таблицу products соединяющего ее с employees
 ALTER TABLE products
        ADD  ( CONSTRAINT c_docs_id
               FOREIGN KEY (prds_docs_id)
@@ -91,7 +91,7 @@ ADD CONSTRAINT с_products_ch
 CHECK (prds_date >= TO_DATE('01-JAN-2000', 'DD-MON-YYYY'));
 CREATE TABLE standarts
 AS (SELECT * from documentation WHERE docs_type='standart');
-DROP TABLE defect CASCADE CONSTRAINTS;
+-- DROP TABLE defect CASCADE CONSTRAINTS;
 COMMENT ON TABLE defect IS "Это таблица дефектов";
 
 RENAME documentation to docs;
