@@ -59,6 +59,7 @@ ALTER TABLE components ADD (
     CONSTRAINT i_components_pk PRIMARY KEY ( comp_id )
 );	-- Создание первичного ключа для таблицы components
 
+
 ALTER TABLE products
        ADD  ( CONSTRAINT XPKproducts PRIMARY KEY (prds_id) ) ;	-- Создание первичного ключа для таблицы products
 ALTER TABLE defect
